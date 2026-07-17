@@ -1,0 +1,48 @@
+# Apache config for the static Astro site served at the document root.
+# Lives in public/ so Astro copies it to dist/ on build, unchanged.
+
+# Default index file
+DirectoryIndex index.html
+
+# Pretty URLs: /foo → /foo/ → /foo/index.html
+# Apache's mod_dir auto-redirects /foo → /foo/ when DirectoryIndex is set,
+# but for nested routes (e.g. /prints/artboard-1) we need an explicit rewrite
+# so the trailing-slash redirect doesn't lose the path.
+RewriteEngine On
+
+# CRITICAL: leave the threeohfivestudios.com subfolder entirely alone.
+# That directory hosts a separate site (the user's portfolio) with its own
+# WordPress install and its own .htaccess. Any rules we add here will
+# cascade into it unless we explicitly skip it.
+RewriteCond %{REQUEST_URI} ^/threeohfivestudios\.com(/|$) [OR]
+RewriteCond %{REQUEST_URI} ^/\.well-known(/|$) [OR]
+RewriteCond %{REQUEST_URI} ^/cgi-bin(/|$)
+RewriteRule ^ - [L]
+
+# Send any non-file, non-directory request to its directory index.
+# This is what makes /prints/artboard-1 serve /prints/artboard-1/index.html.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.[a-zA-Z0-9]+$
+RewriteRule ^(.*)$ $1/ [L,R=301]
+
+# Cache static assets aggressively (Astro fingerprints files in /_astro/)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "\.(jpg|jpeg|png|webp|gif|svg|css|js|woff2?)$">
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+  <FilesMatch "\.(html|htm)$">
+    ExpiresDefault "access plus 1 hour"
+  </FilesMatch>
+</IfModule>
+
+# Compression
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# Security: hide .htaccess and other dotfiles from being served
+<FilesMatch "^\.">
+  Require all denied
+</FilesMatch>

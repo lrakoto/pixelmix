@@ -21,6 +21,9 @@ Thumbs.db
 .vscode/
 .idea/
 
-# local-only image assets we'll commit later
-# (kept here for reference; not actually ignored right now)
-# public/uploads/
+# raw WordPress install folder we downloaded to extract images from
+# (kept on disk for reference, never tracked)
+uploads/
+
+# generator manifest (regenerated from images at build time)
+.prints-manifest.json

@@ -45,7 +45,13 @@ if (!p) {
         </dl>
 
         <div class="btn-row">
-          <a class="btn btn-primary" href="/contact">Order this print →</a>
+          {p.buyUrl ? (
+            <a class="btn btn-primary" href={p.buyUrl} target="_blank" rel="noopener">
+              Buy — ${p.price} →
+            </a>
+          ) : (
+            <a class="btn btn-primary" href="/contact">Order this print →</a>
+          )}
           <a class="btn" href="/gallery">← Back to gallery</a>
         </div>
       </div>
