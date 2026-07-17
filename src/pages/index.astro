@@ -5,7 +5,12 @@ import { prints, featured } from '../data/prints';
 // Hero: pull the first featured print as the lead image. Fall back to the
 // first print in the catalog if nothing is flagged as featured.
 const lead = featured()[0] ?? prints[0];
-const rest = featured().slice(1);
+
+// Homepage gallery: all 116 prints, in catalog order. We ship every card
+// in the HTML and use CSS + a tiny JS handler to show 12 at a time.
+// Without JS, the first 12 are visible and the rest are inert — graceful.
+const PAGE_SIZE = 12;
+const visibleCount = PAGE_SIZE;
 ---
 
 <Layout title="Pixelmix — Anime prints, hand-picked.">
@@ -29,46 +34,58 @@ const rest = featured().slice(1);
         A small, curated catalog of museum-grade prints. Two colors,
         one mood at a time. {prints.length} pieces in the current collection.
       </p>
-      <a class="hero-cta" href="/gallery">
-        Browse the gallery <span class="arrow" aria-hidden="true">→</span>
-      </a>
     </div>
   </section>
 
-  {rest.length > 0 && (
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <div>
-            <span class="eyebrow">Also featured</span>
-            <h2>Picked this season</h2>
-            <p class="lede">
-              A few more pieces we keep coming back to. New work drops
-              every few weeks.
-            </p>
-          </div>
-          <a class="btn" href="/gallery">See all →</a>
-        </div>
-
-        <div class="featured">
-          {rest.map((p) => (
-            <a class="print-card" href={`/prints/${p.slug}`}>
-              <div
-                class="print-thumb"
-                style={`background-image: url('${p.image}');`}
-                role="img"
-                aria-label={`${p.title} by ${p.artist}`}
-              ></div>
-              <div class="print-meta">
-                <span class="print-title">{p.title}</span>
-                <span class="print-price">${p.price}</span>
-              </div>
-            </a>
-          ))}
+  <section class="section" id="collection">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">The collection</span>
+          <h2>All {prints.length} prints.</h2>
+          <p class="lede">
+            Every piece in the current catalog. New work drops every few weeks.
+          </p>
         </div>
       </div>
-    </section>
-  )}
+
+      <div class="gallery" id="home-gallery">
+        {prints.map((p, i) => (
+          <a
+            class={`print-card${i >= visibleCount ? ' is-hidden' : ''}`}
+            href={`/prints/${p.slug}`}
+            data-index={i}
+          >
+            <div
+              class="print-thumb"
+              style={`background-image: url('${p.image}');`}
+              role="img"
+              aria-label={`${p.title} by ${p.artist}`}
+            ></div>
+            <div class="print-meta">
+              <span class="print-title">{p.title}</span>
+              <span class="print-price">${p.price}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="load-more-wrap">
+        <button
+          type="button"
+          class="btn"
+          id="load-more"
+          data-page-size={PAGE_SIZE}
+          data-total={prints.length}
+        >
+          Load more →
+        </button>
+        <p class="load-more-count" id="load-more-count" aria-live="polite">
+          Showing {Math.min(visibleCount, prints.length)} of {prints.length}
+        </p>
+      </div>
+    </div>
+  </section>
 
   <section class="section">
     <div class="container">
@@ -100,9 +117,36 @@ const rest = featured().slice(1);
             Limited runs are limited. Open editions are open, but
             individually numbered so you know which one you got.
           </p>
-          <a class="btn btn-primary" href="/gallery">Browse the collection →</a>
         </div>
       </div>
     </div>
   </section>
 </Layout>
+
+<script>
+  // Progressive "Load more" for the homepage gallery.
+  // Cards beyond the first batch ship in the HTML with `.is-hidden`.
+  // Each click reveals the next batch. When everything is shown,
+  // the button hides itself.
+  const btn = document.getElementById('load-more') as HTMLButtonElement | null;
+  const count = document.getElementById('load-more-count');
+  if (btn) {
+    const pageSize = Number(btn.dataset.pageSize);
+    const total = Number(btn.dataset.total);
+    let shown = pageSize;
+    btn.addEventListener('click', () => {
+      shown = Math.min(shown + pageSize, total);
+      const gallery = document.getElementById('home-gallery');
+      if (gallery) {
+        gallery
+          .querySelectorAll<HTMLElement>('.print-card.is-hidden')
+          .forEach((card) => {
+            const idx = Number(card.dataset.index);
+            if (idx < shown) card.classList.remove('is-hidden');
+          });
+      }
+      if (count) count.textContent = `Showing ${shown} of ${total}`;
+      if (shown >= total) btn.style.display = 'none';
+    });
+  }
+</script>
