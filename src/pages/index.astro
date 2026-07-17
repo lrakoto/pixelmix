@@ -1,152 +1,35 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { prints, featured } from '../data/prints';
-
-// Hero: pull the first featured print as the lead image. Fall back to the
-// first print in the catalog if nothing is flagged as featured.
-const lead = featured()[0] ?? prints[0];
-
-// Homepage gallery: all 116 prints, in catalog order. We ship every card
-// in the HTML and use CSS + a tiny JS handler to show 12 at a time.
-// Without JS, the first 12 are visible and the rest are inert — graceful.
-const PAGE_SIZE = 12;
-const visibleCount = PAGE_SIZE;
 ---
 
-<Layout title="Pixelmix — Anime prints, hand-picked.">
-  <section
-    class="hero"
-    aria-label="Featured print"
-  >
-    <div
-      class="hero-art"
-      style={`background-image: url('${lead.image}');`}
-      role="img"
-      aria-label={`${lead.title} by ${lead.artist}`}
-    ></div>
+<Layout
+  title="Pixelmix — coming soon"
+  description="Anime prints, hand-picked. Launching soon."
+>
+  <section class="splash" aria-label="Coming soon">
+    <div class="splash-glow" aria-hidden="true"></div>
 
-    <div class="hero-content">
-      <span class="hero-eyebrow">Featured · {lead.title}</span>
-      <h1 class="hero-title">
-        Anime prints, <em>mixed</em> with intention.
+    <div class="splash-content">
+      <span class="hero-eyebrow">Coming soon</span>
+      <h1 class="splash-title">
+        Anime prints, <em>hand-picked</em>.
       </h1>
-      <p class="hero-sub">
-        A small, curated catalog of museum-grade prints. Two colors,
-        one mood at a time. {prints.length} pieces in the current collection.
+      <p class="splash-sub">
+        A small shop of museum-grade prints. One color story at a time.
+        We're putting the final pieces in place — a real catalog,
+        proper checkout, and a name on every print.
+      </p>
+      <div class="splash-cta-row">
+        <a class="hero-cta" href="/contact">
+          Get in touch <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="splash-secondary" href="/gallery">
+          Sneak peek the gallery →
+        </a>
+      </div>
+      <p class="splash-foot">
+        pixelmix.co &nbsp;·&nbsp; est. 2026
       </p>
     </div>
   </section>
-
-  <section class="section" id="collection">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">The collection</span>
-          <h2>All {prints.length} prints.</h2>
-          <p class="lede">
-            Every piece in the current catalog. New work drops every few weeks.
-          </p>
-        </div>
-      </div>
-
-      <div class="gallery" id="home-gallery">
-        {prints.map((p, i) => (
-          <a
-            class={`print-card${i >= visibleCount ? ' is-hidden' : ''}`}
-            href={`/prints/${p.slug}`}
-            data-index={i}
-          >
-            <div
-              class="print-thumb"
-              style={`background-image: url('${p.image}');`}
-              role="img"
-              aria-label={`${p.title} by ${p.artist}`}
-            ></div>
-            <div class="print-meta">
-              <span class="print-title">{p.title}</span>
-              <span class="print-price">${p.price}</span>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      <div class="load-more-wrap">
-        <button
-          type="button"
-          class="btn"
-          id="load-more"
-          data-page-size={PAGE_SIZE}
-          data-total={prints.length}
-        >
-          Load more →
-        </button>
-        <p class="load-more-count" id="load-more-count" aria-live="polite">
-          Showing {Math.min(visibleCount, prints.length)} of {prints.length}
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">How it works</span>
-          <h2>One color story per print.</h2>
-        </div>
-      </div>
-
-      <div class="about-grid">
-        <div class="factbox">
-          <h3>What you get</h3>
-          <ul>
-            <li><strong>Archival paper</strong> — Hahnemühle Photo Rag, 308gsm</li>
-            <li><strong>Pigment ink</strong> — rated 100+ years indoors</li>
-            <li><strong>Signed & numbered</strong> on the back</li>
-            <li><strong>Ships flat</strong> in a rigid mailer</li>
-          </ul>
-        </div>
-        <div>
-          <p>
-            Every print is one piece of one story. We don't do bulk
-            catalogs or "10,000 photos of Tokyo at sunset." Each image
-            is picked because it does something specific — sets a mood,
-            tells a small story, lives well on a wall.
-          </p>
-          <p>
-            Limited runs are limited. Open editions are open, but
-            individually numbered so you know which one you got.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
 </Layout>
-
-<script>
-  // Progressive "Load more" for the homepage gallery.
-  // Cards beyond the first batch ship in the HTML with `.is-hidden`.
-  // Each click reveals the next batch. When everything is shown,
-  // the button hides itself.
-  const btn = document.getElementById('load-more') as HTMLButtonElement | null;
-  const count = document.getElementById('load-more-count');
-  if (btn) {
-    const pageSize = Number(btn.dataset.pageSize);
-    const total = Number(btn.dataset.total);
-    let shown = pageSize;
-    btn.addEventListener('click', () => {
-      shown = Math.min(shown + pageSize, total);
-      const gallery = document.getElementById('home-gallery');
-      if (gallery) {
-        gallery
-          .querySelectorAll<HTMLElement>('.print-card.is-hidden')
-          .forEach((card) => {
-            const idx = Number(card.dataset.index);
-            if (idx < shown) card.classList.remove('is-hidden');
-          });
-      }
-      if (count) count.textContent = `Showing ${shown} of ${total}`;
-      if (shown >= total) btn.style.display = 'none';
-    });
-  }
-</script>
