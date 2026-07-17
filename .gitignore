@@ -27,3 +27,7 @@ uploads/
 
 # generator manifest (regenerated from images at build time)
 .prints-manifest.json
+
+# local-only deploy/cleanup scripts (the CI workflow handles deploys)
+deploy.py
+cleanup.py

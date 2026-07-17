@@ -1,0 +1,86 @@
+name: Deploy to GoDaddy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:     # allow manual trigger from the Actions tab
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      - name: Deploy to FTP
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASS }}
+        run: |
+          set -euo pipefail
+
+          # Two-phase deploy:
+          #   1. Upload the new dist/ to the server root (no deletes).
+          #   2. Remove a specific list of WordPress cruft files. Anything
+          #      NOT in the list is left alone — this guarantees we never
+          #      touch the threeohfivestudios.com/ folder (the user's
+          #      portfolio), .well-known/, cgi-bin/, or anything else we
+          #      didn't anticipate.
+          lftp -u "${FTP_USER},${FTP_PASS}" "${FTP_HOST}" <<'LFTP_SCRIPT'
+          set cmd:fail-exit yes
+          set ssl:verify-certificate no
+
+          # --- Phase 1: mirror upload of the new site ---
+          mirror --reverse --verbose ./dist/ /
+
+          # --- Phase 2: remove the old WordPress install ---
+          # Top-level WP files and folders. Each line is a single path.
+          rm -f /index.php
+          rm -f /license.txt
+          rm -f /readme.html
+          rm -f /xmlrpc.php
+          rm -f /404.shtml
+          rm -f /home.html
+          rm -f /layout-styles.css
+          rm -f /wp-activate.php
+          rm -f /wp-blog-header.php
+          rm -f /wp-comments-post.php
+          rm -f /wp-config-sample.php
+          rm -f /wp-config.php
+          rm -f /wp-cron.php
+          rm -f /wp-links-opml.php
+          rm -f /wp-load.php
+          rm -f /wp-login.php
+          rm -f /wp-mail.php
+          rm -f /wp-settings.php
+          rm -f /wp-signup.php
+          rm -f /wp-trackback.php
+          rm -r -f /wp-admin
+          rm -r -f /wp-content
+          rm -r -f /wp-includes
+          rm -r -f /graphic-design-portfolio
+
+          bye
+          LFTP_SCRIPT
+
+          echo "Deploy complete."
