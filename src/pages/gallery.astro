@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { prints } from '../data/prints';
+---
+
+<Layout
+  title="Gallery — Pixelmix"
+  description="The current collection of anime prints."
+>
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">The collection</span>
+          <h1>Gallery</h1>
+          <p class="lede">
+            {prints.length} pieces. Each one is here because it earned it.
+            Filter, browse, or scroll.
+          </p>
+        </div>
+      </div>
+
+      <div class="gallery">
+        {prints.map((p) => (
+          <a class="print-card" href={`/prints/${p.slug}`}>
+            <div
+              class="print-thumb"
+              style={`background-image: url('${p.image}');`}
+              role="img"
+              aria-label={`${p.title} by ${p.artist}`}
+            ></div>
+            <div class="print-meta">
+              <span class="print-title">{p.title}</span>
+              <span class="print-price">${p.price}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

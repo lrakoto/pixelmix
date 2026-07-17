@@ -1,0 +1,54 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { prints, getPrint } from '../../data/prints';
+
+// Astro's getStaticPaths runs at build time. It tells Astro which
+// /prints/<slug>/ pages to generate. Without this, no detail pages
+// get created even though the route file exists.
+export async function getStaticPaths() {
+  return prints.map((p) => ({ params: { slug: p.slug } }));
+}
+
+const slug = Astro.params.slug ?? '';
+const p = getPrint(slug);
+if (!p) {
+  // Should be unreachable because getStaticPaths only emits valid slugs,
+  // but we make TypeScript happy.
+  return Astro.redirect('/gallery');
+}
+---
+
+<Layout
+  title={`${p.title} — Pixelmix`}
+  description={p.description}
+>
+  <section class="container">
+    <div class="detail">
+      <div
+        class="detail-art"
+        style={`background-image: url('${p.image}');`}
+        role="img"
+        aria-label={`${p.title} by ${p.artist}`}
+      ></div>
+
+      <div class="detail-body">
+        <span class="eyebrow">{p.edition}</span>
+        <h1>{p.title}</h1>
+        <p class="detail-artist">by {p.artist}</p>
+        <p class="detail-price">${p.price}</p>
+        <p class="detail-desc">{p.description}</p>
+
+        <dl class="specs">
+          <dt>Size</dt><dd>{p.size}</dd>
+          <dt>Paper</dt><dd>{p.paper}</dd>
+          <dt>Edition</dt><dd>{p.edition}</dd>
+        </dl>
+
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/contact">Order this print →</a>
+          <a class="btn" href="/gallery">← Back to gallery</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

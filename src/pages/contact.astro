@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Contact — Pixelmix"
+  description="Get in touch about a print, a commission, or a question."
+>
+  <section class="section">
+    <div class="container">
+      <div class="section-head" style="justify-content: center; text-align: center;">
+        <div>
+          <span class="eyebrow">Contact</span>
+          <h1>Say hello.</h1>
+          <p class="lede" style="margin-left: auto; margin-right: auto;">
+            Questions about a print, a custom size, or a commission —
+            send a note. We read everything.
+          </p>
+        </div>
+      </div>
+
+      <form class="contact-card" action="mailto:hello@pixelmix.com" method="post" enctype="text/plain">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" required></textarea>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" type="submit">Send message →</button>
+        </div>
+      </form>
+    </div>
+  </section>
+</Layout>

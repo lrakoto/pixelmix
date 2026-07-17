@@ -1,23 +1,108 @@
 ---
-// Astro looks for .astro files in src/pages/ and turns each one into an
-// HTML route. This file becomes the homepage (/).
-//
-// Right now this is just a placeholder so we have a real, buildable site
-// to push to GitHub. The actual design goes here once we agree on it.
+import Layout from '../layouts/Layout.astro';
+import { prints, featured } from '../data/prints';
+
+// Hero: pull the first featured print as the lead image. Fall back to the
+// first print in the catalog if nothing is flagged as featured.
+const lead = featured()[0] ?? prints[0];
+const rest = featured().slice(1);
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Anime prints. Hand-picked. Pixel-mixed." />
-    <title>Pixelmix — Anime prints</title>
-  </head>
-  <body>
-    <main>
-      <h1>Pixelmix</h1>
-      <p>Anime prints. Site coming together.</p>
-    </main>
-  </body>
-</html>
+<Layout title="Pixelmix — Anime prints, hand-picked.">
+  <section
+    class="hero"
+    aria-label="Featured print"
+  >
+    <div
+      class="hero-art"
+      style={`background-image: url('${lead.image}');`}
+      role="img"
+      aria-label={`${lead.title} by ${lead.artist}`}
+    ></div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">Featured · {lead.title}</span>
+      <h1 class="hero-title">
+        Anime prints, <em>mixed</em> with intention.
+      </h1>
+      <p class="hero-sub">
+        A small, curated catalog of museum-grade prints. Two colors,
+        one mood at a time. {prints.length} pieces in the current collection.
+      </p>
+      <a class="hero-cta" href="/gallery">
+        Browse the gallery <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+
+  {rest.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Also featured</span>
+            <h2>Picked this season</h2>
+            <p class="lede">
+              A few more pieces we keep coming back to. New work drops
+              every few weeks.
+            </p>
+          </div>
+          <a class="btn" href="/gallery">See all →</a>
+        </div>
+
+        <div class="featured">
+          {rest.map((p) => (
+            <a class="print-card" href={`/prints/${p.slug}`}>
+              <div
+                class="print-thumb"
+                style={`background-image: url('${p.image}');`}
+                role="img"
+                aria-label={`${p.title} by ${p.artist}`}
+              ></div>
+              <div class="print-meta">
+                <span class="print-title">{p.title}</span>
+                <span class="print-price">${p.price}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">How it works</span>
+          <h2>One color story per print.</h2>
+        </div>
+      </div>
+
+      <div class="about-grid">
+        <div class="factbox">
+          <h3>What you get</h3>
+          <ul>
+            <li><strong>Archival paper</strong> — Hahnemühle Photo Rag, 308gsm</li>
+            <li><strong>Pigment ink</strong> — rated 100+ years indoors</li>
+            <li><strong>Signed & numbered</strong> on the back</li>
+            <li><strong>Ships flat</strong> in a rigid mailer</li>
+          </ul>
+        </div>
+        <div>
+          <p>
+            Every print is one piece of one story. We don't do bulk
+            catalogs or "10,000 photos of Tokyo at sunset." Each image
+            is picked because it does something specific — sets a mood,
+            tells a small story, lives well on a wall.
+          </p>
+          <p>
+            Limited runs are limited. Open editions are open, but
+            individually numbered so you know which one you got.
+          </p>
+          <a class="btn btn-primary" href="/gallery">Browse the collection →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
