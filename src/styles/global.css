@@ -557,3 +557,169 @@ a:hover { color: var(--fg); }
   color: var(--fg-faint);
   font-family: var(--font-display);
 }
+
+/* ----------------------------------------------------------------------
+   Print detail — click-to-zoom lightbox
+
+   The .detail-art used to be a background-image div. Now it's a <button>
+   wrapping an <img>, so the image is real (better a11y, native loading,
+   browser-native long-press save). The button is the click target that
+   opens the modal. The modal renders the same image at natural
+   resolution against a dim backdrop.
+
+   The schema didn't change. This is a presentation-layer zoom on the
+   single image the catalog already has. If/when the Print interface
+   grows an `images: string[]` for true carousel siblings, the modal
+   scaffolding below (backdrop, open/close, focus trap) stays the same —
+   only the slide list inside `.lightbox-stage` needs to grow.
+---------------------------------------------------------------------- */
+
+.detail-art {
+  /* Reset: the button is no longer a background-image div, but a
+     button>img. Keep the visual frame. */
+  position: sticky;
+  top: 5rem;
+  aspect-ratio: 3 / 4;
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+  display: block;
+  cursor: zoom-in;
+  color: inherit;
+  font: inherit;
+  /* Subtle gradient overlay matching the old ::before so the card frame
+     looks identical to before. The image sits on top of it. */
+  background-image: linear-gradient(135deg, var(--magenta-dim), transparent 40%, var(--cyan-dim));
+}
+.detail-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 400ms var(--ease), filter 400ms var(--ease);
+}
+.detail-art:hover img,
+.detail-art:focus-visible img {
+  transform: scale(1.02);
+  filter: brightness(1.04);
+}
+.detail-art:focus-visible {
+  outline: 2px solid var(--magenta);
+  outline-offset: 3px;
+}
+
+/* Lightbox overlay */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(6, 6, 12, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: zoom-out;
+  animation: lightbox-fade-in 180ms var(--ease);
+}
+.lightbox.is-open {
+  display: flex;
+}
+@keyframes lightbox-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.lightbox-stage {
+  position: relative;
+  max-width: min(1100px, 100%);
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-stage img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(100vh - 6rem);
+  width: auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.6),
+              0 0 0 1px rgba(255, 255, 255, 0.06);
+  cursor: default;
+  animation: lightbox-zoom-in 220ms var(--ease);
+}
+@keyframes lightbox-zoom-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: rgba(20, 20, 28, 0.7);
+  border: 1px solid var(--line);
+  color: var(--fg);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 160ms var(--ease), border-color 160ms var(--ease);
+}
+.lightbox-close:hover {
+  background: rgba(255, 46, 154, 0.18);
+  border-color: var(--magenta);
+}
+.lightbox-close:focus-visible {
+  outline: 2px solid var(--magenta);
+  outline-offset: 2px;
+}
+
+.lightbox-caption {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  color: var(--fg-mute);
+  letter-spacing: 0.04em;
+  padding: 0.4rem 0.9rem;
+  background: rgba(10, 10, 15, 0.6);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  max-width: calc(100% - 2rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Lock body scroll when the lightbox is open */
+body.lightbox-open {
+  overflow: hidden;
+}
+
+@media (max-width: 880px) {
+  .detail-art { position: static; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .detail-art img,
+  .lightbox,
+  .lightbox-stage img {
+    transition: none;
+    animation: none;
+  }
+}

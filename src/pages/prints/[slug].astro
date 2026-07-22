@@ -24,12 +24,19 @@ if (!p) {
 >
   <section class="container">
     <div class="detail">
-      <div
+      <button
         class="detail-art"
-        style={`background-image: url('${p.image}');`}
-        role="img"
-        aria-label={`${p.title} by ${p.artist}`}
-      ></div>
+        type="button"
+        data-lightbox-trigger
+        aria-label={`View ${p.title} at full size`}
+      >
+        <img
+          src={p.image}
+          alt={`${p.title} by ${p.artist}`}
+          loading="eager"
+          decoding="async"
+        />
+      </button>
 
       <div class="detail-body">
         <span class="eyebrow">{p.edition}</span>
@@ -57,4 +64,99 @@ if (!p) {
       </div>
     </div>
   </section>
+
+  <!--
+    Lightbox modal. Closed by default; the script below toggles
+    `is-open` on the .lightbox element and `lightbox-open` on <body>.
+
+    Renders the same image at its natural resolution. If a future
+    schema adds `images: string[]` to Print, this scaffold stays
+    the same — only the <img> inside .lightbox-stage becomes a
+    swipable list, and the JS grows prev/next handlers.
+  -->
+  <div
+    class="lightbox"
+    id="lightbox"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="lightbox-caption"
+    hidden
+  >
+    <button
+      class="lightbox-close"
+      type="button"
+      data-lightbox-close
+      aria-label="Close image viewer"
+    >×</button>
+    <div class="lightbox-stage">
+      <img
+        id="lightbox-image"
+        src={p.image}
+        alt={`${p.title} by ${p.artist}`}
+      />
+    </div>
+    <p class="lightbox-caption" id="lightbox-caption">{p.title} — by {p.artist}</p>
+  </div>
 </Layout>
+
+<script>
+  // Click-to-zoom lightbox.
+  // - Click the .detail-art button (or focus + Enter/Space) to open.
+  // - Click backdrop, click ×, or press Escape to close.
+  // - When open, body scroll is locked and focus moves to the close
+  //   button; on close, focus returns to the trigger.
+  // - No external deps. ~50 lines.
+
+  (() => {
+    const trigger = document.querySelector<HTMLButtonElement>('[data-lightbox-trigger]');
+    const lightbox = document.getElementById('lightbox');
+    const closeBtn = lightbox?.querySelector<HTMLButtonElement>('[data-lightbox-close]');
+    if (!trigger || !lightbox || !closeBtn) return;
+
+    let lastFocused: HTMLElement | null = null;
+
+    function open() {
+      lastFocused = document.activeElement as HTMLElement | null;
+      lightbox!.removeAttribute('hidden');
+      // Force a reflow so the .is-open class can animate the fade-in
+      // from display:none via the keyframes; otherwise the first frame
+      // is hidden then snaps visible without animation.
+      void lightbox!.offsetWidth;
+      lightbox!.classList.add('is-open');
+      document.body.classList.add('lightbox-open');
+      closeBtn!.focus();
+    }
+
+    function close() {
+      lightbox!.classList.remove('is-open');
+      document.body.classList.remove('lightbox-open');
+      // After the fade-out, hide from the a11y tree too.
+      window.setTimeout(() => lightbox!.setAttribute('hidden', ''), 200);
+      lastFocused?.focus();
+    }
+
+    trigger.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+
+    // Click outside the image (on the dim backdrop) closes.
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) close();
+    });
+
+    // Keyboard: Escape closes; basic focus trap inside the dialog.
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+        return;
+      }
+      if (e.key === 'Tab') {
+        // The only focusable element in the dialog is the close button,
+        // so a simple trap is to keep focus on it.
+        e.preventDefault();
+        closeBtn.focus();
+      }
+    });
+  })();
+</script>
