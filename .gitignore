@@ -28,6 +28,9 @@ uploads/
 # generator manifest (regenerated from images at build time)
 .prints-manifest.json
 
+# temporary review assets generated while curating the catalog
+.tmp-review/
+
 # local-only deploy/cleanup scripts (the CI workflow handles deploys)
 deploy.py
 cleanup.py

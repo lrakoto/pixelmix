@@ -24,19 +24,43 @@ if (!p) {
 >
   <section class="container">
     <div class="detail">
-      <button
-        class="detail-art"
-        type="button"
-        data-lightbox-trigger
-        aria-label={`View ${p.title} at full size`}
-      >
-        <img
-          src={p.image}
-          alt={`${p.title} by ${p.artist}`}
-          loading="eager"
-          decoding="async"
-        />
-      </button>
+      <div class="detail-gallery">
+        <button
+          class="detail-art"
+          type="button"
+          data-lightbox-trigger
+          aria-label={`View ${p.title} at full size`}
+        >
+          <img
+            id="main-image"
+            src={p.images[0]}
+            alt={`${p.title} by ${p.artist}`}
+            loading="eager"
+            decoding="async"
+          />
+        </button>
+
+        {p.images.length > 1 && (
+          <div class="carousel" role="region" aria-label={`${p.title} mockups`}>
+            {p.images.map((img, i) => (
+              <button
+                class={`carousel-thumb ${i === 0 ? 'is-active' : ''}`}
+                type="button"
+                data-index={i}
+                aria-label={`View image ${i + 1} of ${p.images.length}`}
+                aria-pressed={i === 0 ? 'true' : 'false'}
+              >
+                <img
+                  src={img}
+                  alt={`${p.title} view ${i + 1}`}
+                  loading={i < 4 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div class="detail-body">
         <span class="eyebrow">{p.edition}</span>
@@ -91,7 +115,7 @@ if (!p) {
     <div class="lightbox-stage">
       <img
         id="lightbox-image"
-        src={p.image}
+        src={p.images[0]}
         alt={`${p.title} by ${p.artist}`}
       />
     </div>
@@ -111,9 +135,32 @@ if (!p) {
     const trigger = document.querySelector<HTMLButtonElement>('[data-lightbox-trigger]');
     const lightbox = document.getElementById('lightbox');
     const closeBtn = lightbox?.querySelector<HTMLButtonElement>('[data-lightbox-close]');
-    if (!trigger || !lightbox || !closeBtn) return;
+    const lightboxImg = document.getElementById('lightbox-image') as HTMLImageElement | null;
+    const mainImage = document.getElementById('main-image') as HTMLImageElement | null;
+    const carousel = document.querySelector('.carousel');
+    if (!trigger || !lightbox || !closeBtn || !lightboxImg || !mainImage) return;
 
     let lastFocused: HTMLElement | null = null;
+
+    function setImage(index: number) {
+      const src = p.images[index];
+      mainImage.src = src;
+      lightboxImg.src = src;
+      // Update active thumbnail
+      document.querySelectorAll('.carousel-thumb').forEach((btn, i) => {
+        btn.classList.toggle('is-active', i === index);
+        btn.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+      });
+    }
+
+    if (carousel) {
+      carousel.addEventListener('click', (e) => {
+        const thumb = (e.target as HTMLElement).closest('.carousel-thumb') as HTMLButtonElement | null;
+        if (!thumb) return;
+        const index = Number(thumb.dataset.index ?? 0);
+        setImage(index);
+      });
+    }
 
     function open() {
       lastFocused = document.activeElement as HTMLElement | null;
