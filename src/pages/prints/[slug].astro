@@ -24,7 +24,7 @@ if (!p) {
 >
   <section class="container">
     <div class="detail">
-      <div class="detail-gallery">
+      <div class="detail-gallery" data-images={JSON.stringify(p.images)}>
         <button
           class="detail-art"
           type="button"
@@ -132,21 +132,24 @@ if (!p) {
   // - No external deps. ~50 lines.
 
   (() => {
+    const gallery = document.querySelector('.detail-gallery');
+    const images: string[] = JSON.parse(gallery?.getAttribute('data-images') || '[]');
     const trigger = document.querySelector<HTMLButtonElement>('[data-lightbox-trigger]');
     const lightbox = document.getElementById('lightbox');
     const closeBtn = lightbox?.querySelector<HTMLButtonElement>('[data-lightbox-close]');
     const lightboxImg = document.getElementById('lightbox-image') as HTMLImageElement | null;
     const mainImage = document.getElementById('main-image') as HTMLImageElement | null;
     const carousel = document.querySelector('.carousel');
-    if (!trigger || !lightbox || !closeBtn || !lightboxImg || !mainImage) return;
+    if (!trigger || !lightbox || !closeBtn || !lightboxImg || !mainImage || images.length === 0) return;
 
     let lastFocused: HTMLElement | null = null;
+    let currentIndex = 0;
 
     function setImage(index: number) {
-      const src = p.images[index];
+      currentIndex = index;
+      const src = images[index];
       mainImage.src = src;
       lightboxImg.src = src;
-      // Update active thumbnail
       document.querySelectorAll('.carousel-thumb').forEach((btn, i) => {
         btn.classList.toggle('is-active', i === index);
         btn.setAttribute('aria-pressed', i === index ? 'true' : 'false');
@@ -155,7 +158,7 @@ if (!p) {
 
     if (carousel) {
       carousel.addEventListener('click', (e) => {
-        const thumb = (e.target as HTMLElement).closest('.carousel-thumb') as HTMLButtonElement | null;
+        const thumb = (e.target as HTMLElement).closest<HTMLButtonElement>('.carousel-thumb');
         if (!thumb) return;
         const index = Number(thumb.dataset.index ?? 0);
         setImage(index);

@@ -239,19 +239,6 @@ export const prints: Print[] = [
     "featured": false
   },
   {
-    "slug": "neo-tokyo-hero",
-    "title": "Neo-Tokyo Hero",
-    "artist": "Pixelmix Studio",
-    "price": 38,
-    "size": "A2 (16.5 x 23.4 in)",
-    "paper": "Hahnemühle Photo Rag 308gsm",
-    "edition": "Open edition",
-    "images": ["/prints/hero.jpg"],
-    "description": "A cinematic Neo-Tokyo cityscape inspired by Akira.",
-    "buyUrl": null,
-    "featured": false
-  },
-  {
     "slug": "darth-vader",
     "title": "Darth Vader",
     "artist": "Pixelmix Studio",
