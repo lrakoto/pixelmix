@@ -3,7 +3,7 @@
 Last updated: 2026-07-24
 
 ## Status
-The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page.
+The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page. The detail page now uses a smaller main image with a full-size lightbox zoom.
 
 ## Completed
 - [x] Grouped 116 images into 18 products based on the artwork inside the mockup frames.
@@ -14,6 +14,7 @@ The catalog has been reorganized from 116 individual images into **18 products**
 - [x] Updated `src/pages/gallery.astro` to use the first image of each product.
 - [x] Added carousel + splash-page CSS to `src/styles/global.css`.
 - [x] Removed non-product "Neo-Tokyo Hero" from the catalog.
+- [x] Shrunk main detail image and added lightbox zoom so no vertical scrolling is needed; right-side details get more space.
 - [x] Added `.tmp-review/` to `.gitignore`.
 - [x] Build passes (`npm run build`): 22 pages.
 

@@ -333,7 +333,7 @@ a:hover { color: var(--fg); }
 /* Print detail */
 .detail {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: 0.55fr 1fr;
   gap: 3rem;
   align-items: start;
   padding-top: 3rem;
@@ -345,18 +345,18 @@ a:hover { color: var(--fg); }
 .detail-art {
   position: static;
   top: 5rem;
+  width: 100%;
+  max-height: min(72vh, 540px);
   aspect-ratio: 3 / 4;
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: 18px;
   overflow: hidden;
   padding: 0;
-  width: 100%;
   display: block;
   cursor: zoom-in;
   color: inherit;
   font: inherit;
-  background-image: linear-gradient(135deg, var(--magenta-dim), transparent 40%, var(--cyan-dim));
 }
 .detail-art img {
   width: 100%;
