@@ -3,9 +3,10 @@ import { defineConfig } from 'tinacms';
 export default defineConfig({
   branch: process.env.VERCEL_GIT_COMMIT_REF || process.env.HEAD || 'main',
 
-  // Get this from tina.io once the project is created
-  clientId: process.env.TINA_CLIENT_ID,
-  token: process.env.TINA_TOKEN,
+  // Get this from tina.io once the project is created.
+  // These are read from env vars in CI/dev; TinaCloud injects them at build time.
+  clientId: process.env.TINA_CLIENT_ID ?? '',
+  token: process.env.TINA_TOKEN ?? '',
 
   build: {
     outputFolder: 'admin',
