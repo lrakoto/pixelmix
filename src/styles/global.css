@@ -333,7 +333,7 @@ a:hover { color: var(--fg); }
 /* Print detail */
 .detail {
   display: grid;
-  grid-template-columns: 0.55fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: start;
   padding-top: 3rem;
