@@ -8,9 +8,16 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "tina-dev": "tinacms dev -c \"astro dev\"",
+    "tina-build": "tinacms build && astro build",
+    "tina-start": "tinacms build && astro preview"
   },
   "dependencies": {
     "astro": "^4.16.18"
+  },
+  "devDependencies": {
+    "@tinacms/cli": "^2.5.6",
+    "tinacms": "^3.11.0"
   }
 }

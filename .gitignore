@@ -34,3 +34,6 @@ uploads/
 # local-only deploy/cleanup scripts (the CI workflow handles deploys)
 deploy.py
 cleanup.py
+
+# one-off feedback screenshots
+sreenshot-pixelmix.png

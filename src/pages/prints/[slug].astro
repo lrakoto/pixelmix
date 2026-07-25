@@ -1,21 +1,19 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { prints, getPrint } from '../../data/prints';
+import catalog from '../../data/prints.json';
+const prints = catalog.prints;
+const getPrint = (slug: string) => prints.find((p) => p.slug === slug);
 
 // Astro's getStaticPaths runs at build time. It tells Astro which
 // /prints/<slug>/ pages to generate. Without this, no detail pages
 // get created even though the route file exists.
 export async function getStaticPaths() {
-  return prints.map((p) => ({ params: { slug: p.slug } }));
+  return catalog.prints.map((p) => ({ params: { slug: p.slug } }));
 }
 
 const slug = Astro.params.slug ?? '';
 const p = getPrint(slug);
-if (!p) {
-  // Should be unreachable because getStaticPaths only emits valid slugs,
-  // but we make TypeScript happy.
-  return Astro.redirect('/gallery');
-}
+if (!p) return Astro.redirect('/gallery');
 ---
 
 <Layout

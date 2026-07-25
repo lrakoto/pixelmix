@@ -1,0 +1,17 @@
+fragment PrintsParts on Prints {
+  __typename
+  prints {
+    __typename
+    slug
+    title
+    artist
+    price
+    size
+    paper
+    edition
+    images
+    description
+    buyUrl
+    featured
+  }
+}
