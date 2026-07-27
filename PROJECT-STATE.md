@@ -1,9 +1,9 @@
 # Project State — Current
 
-Last updated: 2026-07-25
+Last updated: 2026-07-27
 
 ## Status
-The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page. The detail page now uses a centered, capped-width two-column layout (image left, info right) with a full-size lightbox zoom. A TinaCMS admin dashboard has been added for browser-based editing of products and images.
+The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page. The detail page now uses a centered, capped-width two-column layout (image left, info right) with a full-size lightbox zoom. A TinaCMS admin dashboard has been added and deployed — the admin is live at `https://pixelmix.co/admin/` and builds in CI via `tina-build`.
 
 ## Completed
 - [x] Grouped 116 images into 18 products based on the artwork inside the mockup frames.
@@ -24,17 +24,33 @@ The catalog has been reorganized from 116 individual images into **18 products**
 - [x] Configured TinaCMS media uploads to save into `public/prints`.
 - [x] Added `tina-dev`, `tina-build`, and `tina-start` npm scripts.
 - [x] Verified the local TinaCMS admin works: product list, form editing, image thumbnails, drag-to-reorder, delete images.
+- [x] Committed and pushed all TinaCMS changes (commit `3d7c5ac`).
+- [x] Set up TinaCloud project for `lrakoto/pixelmix` — Client ID and Content (Readonly) Token obtained.
+- [x] Added `TINA_CLIENT_ID` and `TINA_TOKEN` as GitHub repo secrets via `gh` CLI.
+- [x] Updated CI workflow (`.github/workflows/deploy.yml`) to run `npm run tina-build` with Tina secrets.
+- [x] Created `.env` (gitignored) with Tina credentials for local dev.
+- [x] Created `.env.example` documenting required env vars.
+- [x] Fixed `tina/config.ts` to use `?? ''` fallback for clientId/token so TinaCloud can parse the config.
+- [x] CI deploy succeeded — admin SPA built and deployed to `https://pixelmix.co/admin/`.
+- [x] Installed `gh` CLI (v2.96.0) and authenticated as `lrakoto` with `repo`, `read:org`, `gist` scopes.
 - [x] Build passes (`npm run build`): 22 pages.
 
 ## Product list (18)
 Goku, Rei Ayanami, Saya, Edward Elric, Super Saiyan, Templar, Rock Lee, Oracle, Mikasa, Sailor Moon, Gaara, Genos, Naruto, Genos (Alt), Vegeta, Pixelmix Collage, Android 18, Darth Vader.
 
 ## Open follow-ups
-1. **Commit & push TinaCMS changes** — uncommitted changes include `package.json`, `package-lock.json`, `src/data/prints.json`, `src/pages/gallery.astro`, `src/pages/prints/[slug].astro`, `tina/config.ts`, generated `public/admin/`, and `tina/__generated__/`. The `sreenshot-pixelmix.png` file should not be committed.
-2. **Set up TinaCloud** — create a free project at https://tina.io, connect the `lrakoto/pixelmix` repo, and add the generated `TINA_CLIENT_ID` and `TINA_TOKEN` to `tina/config.ts` so the admin is accessible from any browser.
-3. **Stripe Payment Links** — `buyUrl` is `null` for all 18 products; CTAs fall back to `/contact`.
-4. **Homepage** — currently a splash page; decide when to switch to a full catalog grid.
-5. **Leftover WP directories** — still on server, inert.
+1. **Add `https://pixelmix.co` to TinaCloud site URLs** — the admin at `pixelmix.co/admin/` loads but login fails with "Your TinaCloud config is missing for domain: https://pixelmix.co". Go to the TinaCloud project settings and add `https://pixelmix.co` to the Site URL(s) field (alongside the existing `http://localhost:4321`). Then retry logging in at `https://pixelmix.co/admin/`.
+2. **Stripe Payment Links** — `buyUrl` is `null` for all 18 products; CTAs fall back to `/contact`.
+3. **Homepage** — currently a splash page; decide when to switch to a full catalog grid.
+4. **Leftover WP directories** — still on server, inert.
+
+## TinaCloud details
+- **Project name**: pixelmix
+- **Client ID**: stored as GitHub secret `TINA_CLIENT_ID` and in local `.env`
+- **Token (Content Readonly)**: stored as GitHub secret `TINA_TOKEN` and in local `.env`
+- **Admin URL**: `https://pixelmix.co/admin/`
+- **Local dev admin**: `npm run tina-dev` → `http://localhost:4321/admin/`
+- **gh CLI**: installed at `C:/Users/lrakotomavonandriani/AppData/Local/Microsoft/WinGet/Packages/GitHub.cli_Microsoft.Winget.Source_8wekyb3d8bbwe/bin/gh.exe`, authenticated as `lrakoto`
 
 ## Temporary artifacts
-`.tmp-review/` contains the visual indexes and groupings used during curation. It is gitignored and can be deleted anytime. The `sreenshot-pixelmix.png` in the repo root is a one-off feedback screenshot and should not be committed.
+`.tmp-review/` contains the visual indexes and groupings used during curation. It is gitignored and can be deleted anytime. `sreenshot-pixelmix.png` and `screenshot-01.png` in the repo root are one-off feedback screenshots and are gitignored.
