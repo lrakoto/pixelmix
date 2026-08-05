@@ -1,9 +1,9 @@
 # Project State — Current
 
-Last updated: 2026-07-27
+Last updated: 2026-08-04
 
 ## Status
-The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page. The detail page now uses a centered, capped-width two-column layout (image left, info right) with a full-size lightbox zoom. A TinaCMS admin dashboard has been added and deployed — the admin is live at `https://pixelmix.co/admin/` and builds in CI via `tina-build`.
+The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page. The detail page now uses a centered, capped-width two-column layout (image left, info right) with a full-size lightbox zoom. A TinaCMS admin dashboard has been added and deployed — the admin is live at `https://pixelmix.co/admin/`, builds in CI via `tina-build`, and **login + product editing on production is verified working**. Edits made in the admin commit to `main`, which triggers the CI deploy.
 
 ## Completed
 - [x] Grouped 116 images into 18 products based on the artwork inside the mockup frames.
@@ -34,23 +34,25 @@ The catalog has been reorganized from 116 individual images into **18 products**
 - [x] CI deploy succeeded — admin SPA built and deployed to `https://pixelmix.co/admin/`.
 - [x] Installed `gh` CLI (v2.96.0) and authenticated as `lrakoto` with `repo`, `read:org`, `gist` scopes.
 - [x] Build passes (`npm run build`): 22 pages.
+- [x] Verified `https://pixelmix.co` is in the TinaCloud project's Site URLs; production admin login works and the Prints editor loads all 18 products (2026-08-04).
+- [x] Deleted two duplicate TinaCloud "pixelmix" projects left over from setup; only the live project (Client ID `ab835a3f-…`) remains (2026-08-04).
 
 ## Product list (18)
 Goku, Rei Ayanami, Saya, Edward Elric, Super Saiyan, Templar, Rock Lee, Oracle, Mikasa, Sailor Moon, Gaara, Genos, Naruto, Genos (Alt), Vegeta, Pixelmix Collage, Android 18, Darth Vader.
 
 ## Open follow-ups
-1. **Add `https://pixelmix.co` to TinaCloud site URLs** — the admin at `pixelmix.co/admin/` loads but login fails with "Your TinaCloud config is missing for domain: https://pixelmix.co". Go to the TinaCloud project settings and add `https://pixelmix.co` to the Site URL(s) field (alongside the existing `http://localhost:4321`). Then retry logging in at `https://pixelmix.co/admin/`.
-2. **Stripe Payment Links** — `buyUrl` is `null` for all 18 products; CTAs fall back to `/contact`.
-3. **Homepage** — currently a splash page; decide when to switch to a full catalog grid.
-4. **Leftover WP directories** — still on server, inert.
+1. **Stripe Payment Links** — `buyUrl` is `null` for all 18 products; CTAs fall back to `/contact`.
+2. **Homepage** — currently a splash page; decide when to switch to a full catalog grid.
+3. **Leftover WP directories** — still on server, inert.
 
 ## TinaCloud details
 - **Project name**: pixelmix
 - **Client ID**: stored as GitHub secret `TINA_CLIENT_ID` and in local `.env`
 - **Token (Content Readonly)**: stored as GitHub secret `TINA_TOKEN` and in local `.env`
-- **Admin URL**: `https://pixelmix.co/admin/`
+- **Admin URL**: `https://pixelmix.co/admin/` (login verified working 2026-08-04)
+- **Site URLs**: `http://localhost:4321`, `https://pixelmix.co`
 - **Local dev admin**: `npm run tina-dev` → `http://localhost:4321/admin/`
-- **gh CLI**: installed at `C:/Users/lrakotomavonandriani/AppData/Local/Microsoft/WinGet/Packages/GitHub.cli_Microsoft.Winget.Source_8wekyb3d8bbwe/bin/gh.exe`, authenticated as `lrakoto`
+- **gh CLI**: on the Windows machine, installed via WinGet and authenticated as `lrakoto` (path under `C:/Users/lrakotomavonandriani/…`)
 
 ## Temporary artifacts
 `.tmp-review/` contains the visual indexes and groupings used during curation. It is gitignored and can be deleted anytime. `sreenshot-pixelmix.png` and `screenshot-01.png` in the repo root are one-off feedback screenshots and are gitignored.
