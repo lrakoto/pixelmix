@@ -6,7 +6,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/songoku.jpg",
@@ -34,7 +34,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/ayanami.jpg",
@@ -61,7 +61,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/saya.jpg",
@@ -87,7 +87,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/full-metal.jpg",
@@ -111,7 +111,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/saiyan.jpg",
@@ -135,7 +135,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/templar.jpg",
@@ -159,7 +159,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/lee.jpg",
@@ -181,7 +181,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/oracle.jpg",
@@ -203,7 +203,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/mikasa.jpg",
@@ -223,7 +223,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/sailormoon.jpg",
@@ -243,7 +243,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/gaara.jpg",
@@ -262,7 +262,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/genos.jpg",
@@ -279,7 +279,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/naruto.jpg",
@@ -296,7 +296,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/genos2.jpg",
@@ -312,7 +312,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/vegeta.jpg",
@@ -323,27 +323,12 @@
       "featured": false
     },
     {
-      "slug": "pixelmix-collage",
-      "title": "Pixelmix Collage",
-      "artist": "Pixelmix Studio",
-      "price": 38,
-      "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
-      "edition": "Open edition",
-      "images": [
-        "/prints/Artboard-1.jpg"
-      ],
-      "description": "A curated collage of Pixelmix prints in a single framed composition.",
-      "buyUrl": null,
-      "featured": false
-    },
-    {
       "slug": "android-18",
       "title": "Android 18",
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/android.jpg"
@@ -358,7 +343,7 @@
       "artist": "Pixelmix Studio",
       "price": 38,
       "size": "A2 (16.5 x 23.4 in)",
-      "paper": "Hahnem\u00fchle Photo Rag 308gsm",
+      "paper": "Hahnemühle Photo Rag 308gsm",
       "edition": "Open edition",
       "images": [
         "/prints/vader.jpg"
