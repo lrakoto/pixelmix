@@ -1,9 +1,9 @@
 # Project State — Current
 
-Last updated: 2026-08-04
+Last updated: 2026-08-07
 
 ## Status
-The catalog has been reorganized from 116 individual images into **18 products**, each with a main full-bleed image and multiple mockup variants shown in a clickable thumbnail carousel on the detail page. The detail page now uses a centered, capped-width two-column layout (image left, info right) with a full-size lightbox zoom. A TinaCMS admin dashboard has been added and deployed — the admin is live at `https://pixelmix.co/admin/`, builds in CI via `tina-build`, and **login + product editing on production is verified working**. Edits made in the admin commit to `main`, which triggers the CI deploy.
+The catalog now contains **17 products**, one for every standalone full-bleed print artwork in `public/prints` (excluding the non-product `hero.jpg` brand banner). Each product uses its standalone artwork as the main image and includes a thumbnail carousel only when optically verified matching mockups exist. The detail page uses a centered, capped-width two-column layout with a full-size lightbox zoom. A TinaCMS admin dashboard has been added and deployed — the admin is live at `https://pixelmix.co/admin/`, builds in CI via `tina-build`, and **login + product editing on production is verified working**. Edits made in the admin commit to `main`, which triggers the CI deploy.
 
 ## Completed
 - [x] Grouped 116 images into 18 products based on the artwork inside the mockup frames.
@@ -36,9 +36,15 @@ The catalog has been reorganized from 116 individual images into **18 products**
 - [x] Build passes (`npm run build`): 22 pages.
 - [x] Verified `https://pixelmix.co` is in the TinaCloud project's Site URLs; production admin login works and the Prints editor loads all 18 products (2026-08-04).
 - [x] Deleted two duplicate TinaCloud "pixelmix" projects left over from setup; only the live project (Client ID `ab835a3f-…`) remains (2026-08-04).
+- [x] Optically audited all 116 image files without relying on filenames and rebuilt product image sets (2026-08-07).
+- [x] Removed all mismatched carousel images; 42 verified mockups remain assigned across 12 products (2026-08-07).
+- [x] Products without matching mockups now render as single-image products with no carousel (2026-08-07).
+- [x] Removed the incorrect `Pixelmix Collage` product, whose supposed main image was a room mockup rather than a full-bleed artwork (2026-08-07).
+- [x] Made `src/data/prints.json` the single catalog source of truth; `prints.ts` is now only a typed compatibility export (2026-08-07).
+- [x] Verified the corrected static build: 21 pages, including 17 product pages (2026-08-07).
 
-## Product list (18)
-Goku, Rei Ayanami, Saya, Edward Elric, Super Saiyan, Templar, Rock Lee, Oracle, Mikasa, Sailor Moon, Gaara, Genos, Naruto, Genos (Alt), Vegeta, Pixelmix Collage, Android 18, Darth Vader.
+## Product list (17)
+Goku, Rei Ayanami, Saya, Edward Elric, Super Saiyan, Templar, Rock Lee, Oracle, Mikasa, Sailor Moon, Gaara, Genos, Naruto, Genos (Alt), Vegeta, Android 18, Darth Vader.
 
 ## Open follow-ups
 1. **Stripe Payment Links** — `buyUrl` is `null` for all 18 products; CTAs fall back to `/contact`.

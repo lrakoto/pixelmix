@@ -5,9 +5,9 @@ prints shop. Replaces an old WordPress + WooCommerce site that lived on the
 same cPanel account.
 
 **Live status:** splash page (single-screen "Coming soon"). Direct links to
-`/gallery`, `/prints/<slug>`, `/about`, `/contact` still work and show the
-in-progress catalog. See `docs/HANDOFF.md` for what's intentionally not done
-yet and `docs/ARCHITECTURE.md` for how the pieces fit.
+`/gallery`, `/prints/<slug>`, `/about`, `/contact`, and `/admin` work. The
+catalog contains 17 standalone print products; optically verified mockups are
+shown in a carousel when available. See `PROJECT-STATE.md` for current status.
 
 ## Run locally
 
@@ -63,10 +63,11 @@ directories (`wp-admin/`, `wp-content/`, `wp-includes/`, `index.php`,
 ├── public/
 │   ├── .htaccess                  Apache rules (pretty URLs, caching, gzip)
 │   ├── favicon.svg
-│   └── prints/                    116 product images (committed)
+│   └── prints/                    116 artwork and mockup images (committed)
 ├── src/
 │   ├── components/                Header.astro, Footer.astro
-│   ├── data/prints.ts             The catalog (see ARCHITECTURE.md)
+│   ├── data/prints.json           CMS-backed catalog (source of truth)
+│   ├── data/prints.ts             Typed compatibility export
 │   ├── layouts/Layout.astro       Shared layout (head, header, footer)
 │   ├── pages/
 │   │   ├── index.astro            Homepage (currently a splash)
@@ -85,25 +86,17 @@ directories (`wp-admin/`, `wp-content/`, `wp-includes/`, `index.php`,
 
 In rough priority order:
 
-1. **Print titles** — every print in `src/data/prints.ts` currently has a
-   placeholder title derived from its old WordPress filename
-   (`Artboard 1 1`, `Artboard 3`, etc.). They need real names based on
-   what the image shows.
-2. **Stripe Payment Links** — the `buyUrl` field is in the `Print`
+1. **Stripe Payment Links** — the `buyUrl` field is in the catalog
    interface but `null` for every print. When payment links are created
    in the Stripe dashboard, populate `buyUrl` per print and the
    detail-page CTA switches from "Order this print" to "Buy — $X".
+2. **Homepage launch** — decide when to replace the current splash page with
+   the full catalog storefront.
 3. **Tidy leftover WP dirs** — the first deploy didn't fully clean the
    old `wp-content/`, `wp-includes/`, `wp-content/uploads/` from the FTP
    root. They are inert (no `.htaccess` rule points to them; the new
    site lives next to them), but they're ~100MB of dead weight. Safest
    cleanup is via cPanel File Manager.
-4. **Carousel / variants** — the old WordPress site had each product
-   with one main image and 3 gallery images in a carousel. The current
-   `Print` interface only has a single `image` string. Extending to a
-   `images: string[]` (or a `variants` array) and updating
-   `[slug].astro` and the home/gallery cards to use a carousel is a
-   self-contained follow-up.
 
 ## License
 
