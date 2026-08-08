@@ -367,14 +367,13 @@ a:hover { color: var(--fg); }
 .detail-art img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   display: block;
-  transition: transform 400ms var(--ease), filter 400ms var(--ease);
+  transition: filter 400ms var(--ease);
 }
 .detail-art:hover img,
 .detail-art:focus-visible img {
-  transform: scale(1.02);
   filter: brightness(1.04);
 }
 .detail-art:focus-visible {
