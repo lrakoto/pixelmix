@@ -351,9 +351,10 @@ a:hover { color: var(--fg); }
 .detail-art {
   position: static;
   top: 5rem;
-  width: 100%;
+  width: min(100%, 53.22vh, 491px);
   max-height: min(78vh, 720px);
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 900 / 1319;
+  align-self: center;
   background: var(--bg-elev);
   border: 1px solid var(--line);
   border-radius: 18px;
